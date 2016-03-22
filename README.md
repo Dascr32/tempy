@@ -1,6 +1,6 @@
 # TEMPy: a CLI for cleaning your Windows temporary files
 
-![TEMPy logo]("assets/tempy.png")
+![TEMPy logo](assets/tempy.png)
 
 TEMPy is a **command line** utility intended for keeping your windows machine happy. Just run a command in your terminal every 10 seconds, week, year (please don't), or whenever you want and that's it your temp files are gone. Simple and fast.
 
