@@ -11,7 +11,7 @@ class Config (object):
     def __init__(self):
         self.dir_to_use = tempfile.gettempdir()
         self.log_name = "tempy-log.txt"
-        self.app_dir = os.path.join(os.path.expanduser("~"), "tempy")
+        self.app_dir = os.path.join(os.path.expanduser("~"), ".tempy")
 
         if not os.path.exists(self.app_dir):
             os.makedirs(self.app_dir)

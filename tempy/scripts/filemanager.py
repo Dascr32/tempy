@@ -4,7 +4,7 @@ from tempy.scripts import cleaner
 from tempy.scripts import analyzer
 from tempy.scripts import converter
 
-DEFAULT_APP_DIR = os.path.join(os.path.expanduser("~"), "tempy")
+DEFAULT_APP_DIR = os.path.join(os.path.expanduser("~"), ".tempy")
 
 LOG_FILE_NAME = "tempy-log.txt"
 
