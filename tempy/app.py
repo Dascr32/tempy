@@ -28,7 +28,7 @@ def delete(config, a, se):
         click.echo("Attempting deletion of: " + str(analyzer.get_total_files()) + " elements...\n")
 
         cleaner.delete_dir_content(config.dir_to_use)
-        filemanager.write_cleanup_report(config.log_path)
+        filemanager.write_cleanup_report(config.app_dir)
         filemanager.pickle_data("last-cleanup", cleaner.cleanup_data)  # Make clean up data persistent
 
         click.echo("\nDeletion complete!")
@@ -78,7 +78,7 @@ def log(config):
     """
     Tempy log with all the deletions reports
     """
-    click.launch(os.path.join(config.log_path, config.log_name))
+    click.launch(os.path.join(config.app_dir, config.log_name))
 
 
 if __name__ == '__main__':

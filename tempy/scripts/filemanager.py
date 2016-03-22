@@ -4,9 +4,9 @@ from tempy.scripts import cleaner
 from tempy.scripts import analyzer
 from tempy.scripts import converter
 
-DEFAULT_APP_DIR = os.path.expanduser("~")
+DEFAULT_APP_DIR = os.path.join(os.path.expanduser("~"), "tempy")
 
-LOG_FILE_NAME = "tempcl-log.txt"
+LOG_FILE_NAME = "tempy-log.txt"
 
 TEXT_SPACER = "\n\n\n"
 
