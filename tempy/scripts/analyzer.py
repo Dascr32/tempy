@@ -33,7 +33,13 @@ def table_from_content(dir_content=None, type="string", sort_by="File"):
         dir_content = get_dir_content()
 
     for file, size in dir_content.items():
-        table.add_row([file, human_readable_size(size)])
+        file_path = os.path.join(TEMP_DIR, file)
+
+        if os.path.isdir(file_path):
+            table.add_row([file, human_readable_size(get_dir_size(file_path))])
+
+        else:
+            table.add_row([file, human_readable_size(size)])
 
     return table.get_string(sortby=sort_by) \
         if type == "string" else table.get_html_string(sortby=sort_by)
