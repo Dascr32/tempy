@@ -60,7 +60,7 @@ Deletion complete!
 ```
 When this command is executed it automatically log the deletion report. Which can be accesed with `tempy log`.
 
-The `Unable to delete` message means that the file/directory can be deleted at the time, the reason can be that an other program is using it or something else. For error details use `tempy delete --se`
+The `Unable to delete` message means that the file/directory can't be deleted at the time, the reason can be that an other program is using it or something else. For error details use `tempy delete --se`
 
 ```
 tempy delete --se

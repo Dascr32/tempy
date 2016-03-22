@@ -11,6 +11,7 @@ setup(
     author_email="dasgaskl@gmail.com",
     description="CLI for cleaning Windows temporary files",
     url="https://github.com/Dascr32/tempy",
+    download_url="https://github.com/Dascr32/tempy/archive/v0.5.tar.gz",
     keywords="cli temp windows clean delete",
 
     classifiers=[
