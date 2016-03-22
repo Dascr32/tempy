@@ -7,7 +7,7 @@
 
 TEMPy is a **command line** utility intended for keeping your windows machine happy. Just run a command in your terminal every 10 seconds, week, year (please don't), or whenever you want and that's it your temp files are gone. Simple and fast.
 
-TEMPy is written in python paired with the awesome [Click](http://click.pocoo.org/) library, so it's not windows only. You can run it in Linux or Mac, don't know why, but it's possible.
+TEMPy is written in python paired with the awesome [Click](http://click.pocoo.org/) and [PrettyTable](https://pypi.python.org/pypi/PrettyTable) libraries, so it's not windows only. You can run it in Linux or Mac, don't know why, but it's possible.
 
 ## Features
 * Intuitive commands
