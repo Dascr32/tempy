@@ -26,7 +26,7 @@ def dir_tree(root_dir_path=TEMP_DIR):
     return root_dirs_detail + root_files
 
 
-def table_from_content(dir_content=None, type="string", sort_by="File"):
+def table_from_content(dir_content=None, type="string", sort_by="Size"):
     table = prettytable.PrettyTable(["File", "Size"])
 
     if not dir_content:
