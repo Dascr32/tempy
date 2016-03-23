@@ -7,7 +7,7 @@
 
 TEMPy is a **command line** utility intended for keeping your windows machine happy. Just run a command in your terminal every 10 seconds, week, year (please don't), or whenever you want and that's it your temp files are gone. Simple and fast.
 
-TEMPy is written in python paired with the awesome [Click](http://click.pocoo.org/) and [PrettyTable](https://pypi.python.org/pypi/PrettyTable) libraries, so it's not windows only. You can run it in Linux or Mac, don't know why, but it's possible.
+TEMPy is written in python paired with the awesome [Click](http://click.pocoo.org/) and [PrettyTable](https://pypi.python.org/pypi/PrettyTable) libraries, so it's not windows only. You can run it on Linux or Mac, don't know why, but it's possible.
 
 ## Features
 * Intuitive commands
@@ -17,16 +17,16 @@ TEMPy is written in python paired with the awesome [Click](http://click.pocoo.or
 * Log file with detailed data of the performed deletions
 
 ## Installation
-Tempy can be installed with pip with the command:
+TEMPy can be installed with pip:
 ```
-pip install tempy
+$ pip install tempy
 ```
 Make sure pip and setuptools are up to date.
 
 ## Usage
 The general command structure is:
 ```
-tempy [COMMAND] [OPTION]
+$ tempy [COMMAND] [OPTION]
 ```
 ## Commands
 | Command       | Option        | Description |
@@ -41,7 +41,7 @@ tempy [COMMAND] [OPTION]
 
 ### Delete
 ```
-tempy delete --a
+$ tempy delete --a
 ```
 ```
 Attempting deletion of: 5 elements..
@@ -63,7 +63,7 @@ When this command is executed it automatically log the deletion report. Which ca
 The `Unable to delete` message means that the file/directory can't be deleted at the time, the reason can be that an other program is using it or something else. For error details use `tempy delete --se`
 
 ```
-tempy delete --se
+$ tempy delete --se
 ```
 ```
 Errors encountered during the last deletion [03/22/16 12:10:22]:
@@ -78,7 +78,7 @@ by another process: 'C:\\Users\\User\\AppData\\Local\\Temp\\app-log.log'
 
 ### Analyze
 ```
-tempy analyze
+$ tempy analyze
 ```
 ```
 $ tempy analyze
@@ -105,7 +105,7 @@ Analyzing directory: C:\Users\User\AppData\Local\Temp
 ```
 ### Tree
 ```
-tempy tree
+$ tempy tree
 ```
 ```
 Directory tree for: C:\Users\Daniel\AppData\Local\Temp
@@ -132,7 +132,7 @@ Directory tree for: C:\Users\Daniel\AppData\Local\Temp
 ```
 ### Log
 ```
-tempy log
+$ tempy log
 ```
 Opens your default editor with the log content:
 ```
