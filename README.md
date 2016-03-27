@@ -1,5 +1,9 @@
 # TEMPy: a CLI for cleaning your Windows temp files
 
+[![PyPI](https://img.shields.io/pypi/pyversions/tempy.svg)](https://pypi.python.org/pypi/tempy)
+[![PyPI](https://img.shields.io/pypi/v/tempy.svg)](https://pypi.python.org/pypi/tempy)
+[![PyPI](https://img.shields.io/pypi/dm/tempy.svg)](https://pypi.python.org/pypi/tempy)
+
 <br><p align="center">
   <img src="assets/tempy.png" alt="logo"/>
 </p><br>
