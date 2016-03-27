@@ -44,7 +44,7 @@ $ tempy [COMMAND] [OPTION]
 $ tempy delete --a
 ```
 ```
-Attempting deletion of: 5 elements..
+Attempting to delete: 5 entries..
 
 Deleting dir: foo-dir
 Deleting file: foo.log
@@ -77,6 +77,7 @@ by another process: 'C:\\Users\\User\\AppData\\Local\\Temp\\app-log.log'
 ```
 
 ### Analyze
+By default the entries in the table are sorted by size (not shown in this example).
 ```
 $ tempy analyze
 ```
@@ -100,7 +101,7 @@ Analyzing directory: C:\Users\User\AppData\Local\Temp
 |        foorpdata_user       |   0.0 B   |
 |         fooelib.log         |  4.8 KiB  |
 +-----------------------------+-----------+
-* Files/Dirs: 13
+* Files: 11 / Dirs: 2
 * Size: 52.7 MiB
 ```
 ### Tree
@@ -129,6 +130,9 @@ Directory tree for: C:\Users\Daniel\AppData\Local\Temp
 +-- glufoo1.log
 +-- fooelib.log
 +-- PDFoo.log
+
+* Files: 11 / Dirs: 2
+* Size: 52.7 MiB
 ```
 ### Log
 ```
@@ -158,7 +162,7 @@ Opens your default editor with the log content:
 |        foorpdata_user       |   0.0 B   |
 |         fooelib.log         |  4.8 KiB  |
 +-----------------------------+-----------+
-=> Files/Dirs: 13
+=> Files: 11 / Dirs: 2
 => Size: 52.7 MiB
 
 ==== Deleted Files/Dirs ====
