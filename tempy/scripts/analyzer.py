@@ -1,6 +1,7 @@
 import os
 import tempfile
 import prettytable
+from collections import OrderedDict
 from tempy.scripts import converter
 
 TEMP_DIR = tempfile.gettempdir()
@@ -26,30 +27,32 @@ def dir_tree(root_dir_path=TEMP_DIR):
     return root_dirs_detail + root_files
 
 
-def table_from_content(dir_content=None, type="string", sort_by="Size"):
+def table_from_content(dir_content=None, sort_by="Size"):
     table = prettytable.PrettyTable(["File", "Size"])
 
     if not dir_content:
         dir_content = get_dir_content()
 
+    if sort_by == "Size":
+        dir_content = OrderedDict(sorted(dir_content.items(), key=lambda t: t[1]))
+
     for file, size in dir_content.items():
-        file_path = os.path.join(TEMP_DIR, file)
+        table.add_row([file, human_readable_size(size)])
 
-        if os.path.isdir(file_path):
-            table.add_row([file, human_readable_size(get_dir_size(file_path))])
-
-        else:
-            table.add_row([file, human_readable_size(size)])
-
-    return table.get_string(sortby=sort_by) \
-        if type == "string" else table.get_html_string(sortby=sort_by)
+    return table.get_string(sortby="File") if sort_by == "File" else table.get_string()
 
 
 def get_dir_content(dir_path=TEMP_DIR):
     files = {}
 
-    for file_name in os.listdir(dir_path):
-        files[file_name] = os.path.getsize(os.path.join(dir_path, file_name))
+    for entry in os.listdir(dir_path):
+        entry_path = os.path.join(dir_path, entry)
+
+        if os.path.isdir(entry_path):
+            files[entry] = get_dir_size(entry_path)
+
+        else:
+            files[entry] = os.path.getsize(entry_path)
 
     return files
 
@@ -65,15 +68,39 @@ def get_dir_size(root_dir_path=TEMP_DIR, readable=False):
     return human_readable_size(raw_dir_size) if readable else raw_dir_size
 
 
-def get_total_files(dir_path=TEMP_DIR):
+def get_entries_count(dir_path=TEMP_DIR):
     return len(os.listdir(dir_path))
+
+
+def get_dirs_count(dir_path=TEMP_DIR):
+    count = 0
+
+    for entry in os.listdir(dir_path):
+        entry_path = os.path.join(dir_path, entry)
+        if os.path.isdir(entry_path):
+            count += 1
+
+    return count
+
+
+def get_files_count(dir_path=TEMP_DIR):
+    count = 0
+
+    for entry in os.listdir(dir_path):
+        entry_path = os.path.join(dir_path, entry)
+        if not os.path.isdir(entry_path):
+            count += 1
+
+    return count
 
 
 def get_all_data(dir_path):
     data = dict()
 
     data["contents"] = table_from_content()
-    data["elements"] = get_total_files(dir_path)
+    data["entries_count"] = get_entries_count(dir_path)
+    data["dirs_count"] = get_dirs_count(dir_path)
+    data["files_count"] = get_files_count(dir_path)
     data["size"] = get_dir_size(dir_path, readable=True)
 
     return data

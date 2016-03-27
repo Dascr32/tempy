@@ -8,7 +8,7 @@ DEFAULT_APP_DIR = os.path.join(os.path.expanduser("~"), ".tempy")
 
 LOG_FILE_NAME = "tempy-log.txt"
 
-TEXT_SPACER = "\n\n\n"
+TEXT_SPACER = "\n\n\n\n"
 
 
 def write_cleanup_report(file_path=DEFAULT_APP_DIR, file_name=LOG_FILE_NAME):
@@ -29,7 +29,7 @@ def format_report_head(data):
     output = "\n\n##### Clean up performed at: " + data["datetime"] + "#####\n\n"
     output += "\n==== Directory contents on delete ====\n\n"
     output += analyzer.table_from_content(data["content"]) + "\n\n"
-    output += "=> Files/Dirs: " + str(data["file_count"]) + "\n"
+    output += "=> Files: " + str(data["files_count"]) + " / Dirs: " + str(data["dirs_count"]) + "\n"
     output += "=> Size: " + converter.human_readable_size(data["size"]) + "\n"
 
     return output
@@ -49,7 +49,7 @@ def format_report_body(data):
     else:
         output += "=> No files or directories where deleted"
 
-    output += "\n" + TEXT_SPACER
+    output += TEXT_SPACER
 
     return output
 

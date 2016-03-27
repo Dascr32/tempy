@@ -25,7 +25,7 @@ def delete(config, a, se):
     Deletes all the directory content (files, dirs)
     """
     if a:
-        click.echo("Attempting deletion of: " + str(analyzer.get_total_files()) + " elements...\n")
+        click.echo("Attempting to delete: " + str(analyzer.get_entries_count()) + " entries...\n")
 
         cleaner.delete_dir_content(config.dir_to_use)
         filemanager.write_cleanup_report(config.app_dir)
@@ -45,7 +45,7 @@ def delete(config, a, se):
                                            for error in last_cleanup["errors"]))
 
         else:
-            click.echo("No error data was found")
+            click.echo("No error data was found.")
 
 
 @cli.command()
@@ -58,7 +58,7 @@ def analyze(config):
     dir_data = analyzer.get_all_data(config.dir_to_use)
 
     click.echo(dir_data["contents"])
-    click.echo("* Files/Dirs: " + str(dir_data["elements"]))
+    click.echo("* Files: " + str(dir_data["files_count"]) + " / Dirs: " + str(dir_data["dirs_count"]))
     click.echo("* Size: " + dir_data["size"])
 
 
@@ -70,6 +70,10 @@ def tree(config):
     """
     click.echo("Directory tree for: " + config.dir_to_use)
     click.echo(analyzer.dir_tree(config.dir_to_use))
+
+    click.echo("\n* Files: " + str(analyzer.get_files_count(config.dir_to_use)) +
+               " / Dirs: " + str(analyzer.get_dirs_count(config.dir_to_use)))
+    click.echo("* Size: " + str(analyzer.get_dir_size(config.dir_to_use, readable=True)))
 
 
 @cli.command()
