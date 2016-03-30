@@ -11,12 +11,11 @@ LOG_FILE_NAME = "tempy-log.txt"
 TEXT_SPACER = "\n\n\n\n"
 
 
-def write_cleanup_report(file_path=DEFAULT_APP_DIR, file_name=LOG_FILE_NAME):
+def write_cleanup_report(cleanup_data, file_path=DEFAULT_APP_DIR, file_name=LOG_FILE_NAME):
     log_file = open(os.path.join(file_path, file_name), "a")
-    cleanup_data = cleaner.cleanup_data
 
     if not cleanup_data:
-        log_file.write("\n\nNo clean up data available at: " + converter.get_datetime())
+        log_file.write("\n\nNo clean up data available on: " + converter.get_datetime())
 
     else:
         log_file.write(format_report_head(cleaner.dir_before_delete))
@@ -26,7 +25,7 @@ def write_cleanup_report(file_path=DEFAULT_APP_DIR, file_name=LOG_FILE_NAME):
 
 
 def format_report_head(data):
-    output = "\n\n##### Clean up performed at: " + data["datetime"] + "#####\n\n"
+    output = "\n\n##### Clean up performed on: " + data["datetime"] + "#####\n\n"
     output += "\n==== Directory contents on delete ====\n\n"
     output += analyzer.table_from_content(data["content"]) + "\n\n"
     output += "=> Files: " + str(data["files_count"]) + " / Dirs: " + str(data["dirs_count"]) + "\n"
@@ -54,17 +53,15 @@ def format_report_body(data):
     return output
 
 
-def pickle_data(file_name, data, file_path=DEFAULT_APP_DIR):
-    file = open(os.path.join(file_path, file_name + ".pickle"), "wb")
+def pickle_data(file_name, data, dir_path=DEFAULT_APP_DIR):
+    file = open(os.path.join(dir_path, file_name + ".pickle"), "wb")
     pickle.dump(data, file)
 
 
-def unpickle_data(file_name, file_path=DEFAULT_APP_DIR):
+def unpickle_data(file_name, dir_path=DEFAULT_APP_DIR):
     data = None
-    try:
-        file = open(os.path.join(file_path, file_name + ".pickle"), "rb")
+
+    with open(os.path.join(dir_path, file_name + ".pickle"), "rb") as file:
         data = pickle.load(file)
-    except FileNotFoundError:
-        pass
 
     return data

@@ -4,6 +4,7 @@ from tempy.scripts import analyzer
 from tempy.scripts import cleaner
 from tempy.scripts.config import Config
 from tempy.scripts import filemanager
+from tempy.scripts import converter
 
 
 app_config = click.make_pass_decorator(Config, ensure=True)
@@ -28,7 +29,7 @@ def delete(config, a, se):
         click.echo("Attempting to delete: " + str(analyzer.get_entries_count()) + " entries...\n")
 
         cleaner.delete_dir_content(config.dir_to_use)
-        filemanager.write_cleanup_report(config.app_dir)
+        filemanager.write_cleanup_report(cleaner.cleanup_data, config.app_dir)
         filemanager.pickle_data("last-cleanup", cleaner.cleanup_data)  # Make clean up data persistent
 
         click.echo("\nDeletion complete!")
@@ -36,15 +37,14 @@ def delete(config, a, se):
         click.echo("* Errors: " + str(cleaner.cleanup_data["error_count"]))
 
     if se:
-        last_cleanup = filemanager.unpickle_data("last-cleanup")
+        try:
+            last_cleanup = filemanager.unpickle_data("last-cleanup")
 
-        if last_cleanup:
             click.echo("Errors encountered during the last deletion [" + last_cleanup["datetime"] + "]:")
             click.echo("Total: " + str(last_cleanup["error_count"]) + "\n")
             click.echo_via_pager("\n\n".join("* %s" % error
-                                           for error in last_cleanup["errors"]))
-
-        else:
+                                             for error in last_cleanup["errors"]))
+        except FileNotFoundError:
             click.echo("No error data was found.")
 
 
@@ -78,11 +78,26 @@ def tree(config):
 
 @cli.command()
 @app_config
-def log(config):
+@click.option("--l", is_flag=True,
+              help="Shows a quick view of the last deletion report")
+def log(config, l):
     """
     Tempy log with all the deletions reports
     """
-    click.launch(os.path.join(config.app_dir, config.log_name))
+    if l:
+        try:
+            last_cleanup = filemanager.unpickle_data("last-cleanup")
+
+            click.echo("\nPerformed on: " + last_cleanup["datetime"])
+            click.echo("\n* Deletions: " + str(last_cleanup["deletions"]))
+            click.echo("* Deletion size: " + converter.human_readable_size(last_cleanup["size"]))
+            click.echo("* Errors: " + str(last_cleanup["error_count"]))
+
+        except FileNotFoundError:
+            click.echo("No data was found.")
+
+    else:
+        click.launch(os.path.join(config.app_dir, config.log_name))
 
 
 if __name__ == '__main__':
