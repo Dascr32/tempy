@@ -14,7 +14,14 @@ from click.testing import CliRunner
 class CliTest(unittest.TestCase):
 
     def setUp(self):
+        if not os.path.exists(filemanager.DEFAULT_APP_DIR):
+            os.makedirs(filemanager.DEFAULT_APP_DIR)
+
+        self.app_dir = tempfile.mkdtemp()
         filemanager.create_config_file()
+
+    def tearDown(self):
+        shutil.rmtree(self.app_dir)
 
     def test_delete(self):
         runner = CliRunner()
@@ -24,12 +31,12 @@ class CliTest(unittest.TestCase):
             filemanager.modify_config("dir_to_use", root)
 
             # Change app_dir for creating the log file there
-            filemanager.modify_config("app_dir", tempfile.mkdtemp())
+            filemanager.modify_config("app_dir", self.app_dir)
 
             result = runner.invoke(app.cli, ["delete", "--a"])
 
             assert result.exit_code == 0
-            assert len(os.listdir(root)) == 1  # 1 not 0 because of the created dir for the log file
+            assert len(os.listdir(root)) == 0
 
     def test_analyze(self):
         runner = CliRunner()

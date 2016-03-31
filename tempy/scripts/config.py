@@ -21,4 +21,4 @@ class Config (object):
         self.dir_to_use = tempfile.gettempdir() if config_data["dir_to_use"] == "default" else config_data["dir_to_use"]
         self.log_name = config_data["log_file_name"]
         self.app_dir = os.path.join(os.path.expanduser("~"), ".tempy") if config_data["app_dir"] == "default" \
-            else config_data["dir_to_use"]
+            else config_data["app_dir"]

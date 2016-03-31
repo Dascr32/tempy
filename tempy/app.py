@@ -31,7 +31,7 @@ def delete(config, a, se):
 
         cleaner.delete_dir_content(config.dir_to_use)
         filemanager.write_cleanup_report(cleaner.cleanup_data, config.app_dir)
-        filemanager.pickle_data("last-cleanup", cleaner.cleanup_data)  # Make clean up data persistent
+        filemanager.pickle_data("last-cleanup", cleaner.cleanup_data, config.app_dir)  # Make clean up data persistent
 
         click.echo("\nDeletion complete!")
         click.echo("* Deletions: " + str(cleaner.cleanup_data["deletions"]))
