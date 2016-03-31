@@ -69,21 +69,28 @@ def create_config_file(dir_path=DEFAULT_APP_DIR):
     return config
 
 
-def get_config_data(file_path=DEFAULT_APP_DIR):
+def get_config_data(dir_path=DEFAULT_APP_DIR):
     data = None
 
+    if not config_file_exist(dir_path):
+        create_config_file(dir_path)
+
     with suppress(FileNotFoundError):
-        with open(os.path.join(file_path, CONFIG_FILE_NAME)) as data_file:
+        with open(os.path.join(dir_path, CONFIG_FILE_NAME)) as data_file:
             data = json.load(data_file)
 
     return data
 
 
-def modify_config(parameter, value, file_path=DEFAULT_APP_DIR):
-    config = get_config_data(file_path)
+def modify_config(parameter, value, dir_path=DEFAULT_APP_DIR):
+
+    if not config_file_exist(dir_path):
+        create_config_file(dir_path)
+
+    config = get_config_data(dir_path)
     config[parameter] = value
 
-    with open(os.path.join(file_path, CONFIG_FILE_NAME), "w") as outfile:
+    with open(os.path.join(dir_path, CONFIG_FILE_NAME), "w") as outfile:
         json.dump(config, outfile)
 
 
@@ -92,8 +99,8 @@ def config_file_exist(dir_path=DEFAULT_APP_DIR):
 
 
 def pickle_data(file_name, data, dir_path=DEFAULT_APP_DIR):
-    file = open(os.path.join(dir_path, file_name + ".pickle"), "wb")
-    pickle.dump(data, file)
+    with open(os.path.join(dir_path, file_name + ".pickle"), "wb") as file:
+        pickle.dump(data, file)
 
 
 def unpickle_data(file_name, dir_path=DEFAULT_APP_DIR):

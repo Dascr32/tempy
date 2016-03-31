@@ -12,13 +12,19 @@ from click.testing import CliRunner
 
 
 class CliTest(unittest.TestCase):
+
+    def setUp(self):
+        filemanager.create_config_file()
+
     def test_delete(self):
         runner = CliRunner()
 
         with runner.isolated_filesystem() as root:
             boilerplate.create_testing_dir(root)
             filemanager.modify_config("dir_to_use", root)
-            filemanager.modify_config("app_dir", tempfile.mkdtemp())  # The deletion log file will be created here
+
+            # Change app_dir for creating the log file there
+            filemanager.modify_config("app_dir", tempfile.mkdtemp())
 
             result = runner.invoke(app.cli, ["delete", "--a"])
 
@@ -109,9 +115,9 @@ class ScriptsTest(unittest.TestCase):
 
     def test_modify_config(self):
         filemanager.create_config_file(self.dir_path)
-        filemanager.modify_config("dir_to_use", "some_dir", file_path=self.dir_path)
-        filemanager.modify_config("log_file_name", "test.txt", file_path=self.dir_path)
-        filemanager.modify_config("app_dir", "test", file_path=self.dir_path)
+        filemanager.modify_config("dir_to_use", "some_dir", dir_path=self.dir_path)
+        filemanager.modify_config("log_file_name", "test.txt", dir_path=self.dir_path)
+        filemanager.modify_config("app_dir", "test", dir_path=self.dir_path)
 
         modified_config = filemanager.get_config_data(self.dir_path)
 
