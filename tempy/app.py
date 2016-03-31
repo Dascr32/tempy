@@ -11,6 +11,7 @@ app_config = click.make_pass_decorator(Config, ensure=True)
 
 
 @click.group()
+@click.version_option(version="0.5", prog_name="TEMPy")
 def cli():
     pass
 

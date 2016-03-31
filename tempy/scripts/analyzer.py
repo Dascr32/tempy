@@ -97,7 +97,7 @@ def get_files_count(dir_path=TEMP_DIR):
 def get_all_data(dir_path):
     data = dict()
 
-    data["contents"] = table_from_content()
+    data["contents"] = table_from_content(get_dir_content(dir_path))
     data["entries_count"] = get_entries_count(dir_path)
     data["dirs_count"] = get_dirs_count(dir_path)
     data["files_count"] = get_files_count(dir_path)

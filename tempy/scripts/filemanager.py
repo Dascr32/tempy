@@ -1,5 +1,7 @@
 import os
 import pickle
+import json
+from contextlib import suppress
 from tempy.scripts import cleaner
 from tempy.scripts import analyzer
 from tempy.scripts import converter
@@ -7,6 +9,8 @@ from tempy.scripts import converter
 DEFAULT_APP_DIR = os.path.join(os.path.expanduser("~"), ".tempy")
 
 LOG_FILE_NAME = "tempy-log.txt"
+
+CONFIG_FILE_NAME = "config.json"
 
 TEXT_SPACER = "\n\n\n\n"
 
@@ -51,6 +55,40 @@ def format_report_body(data):
     output += TEXT_SPACER
 
     return output
+
+
+def create_config_file(dir_path=DEFAULT_APP_DIR):
+    config = dict()
+    config["dir_to_use"] = "default"
+    config["log_file_name"] = LOG_FILE_NAME
+    config["app_dir"] = "default"
+
+    with open(os.path.join(dir_path, CONFIG_FILE_NAME), "w") as outfile:
+        json.dump(config, outfile)
+
+    return config
+
+
+def get_config_data(file_path=DEFAULT_APP_DIR):
+    data = None
+
+    with suppress(FileNotFoundError):
+        with open(os.path.join(file_path, CONFIG_FILE_NAME)) as data_file:
+            data = json.load(data_file)
+
+    return data
+
+
+def modify_config(parameter, value, file_path=DEFAULT_APP_DIR):
+    config = get_config_data(file_path)
+    config[parameter] = value
+
+    with open(os.path.join(file_path, CONFIG_FILE_NAME), "w") as outfile:
+        json.dump(config, outfile)
+
+
+def config_file_exist(dir_path=DEFAULT_APP_DIR):
+    return os.path.exists(os.path.join(dir_path, CONFIG_FILE_NAME))
 
 
 def pickle_data(file_name, data, dir_path=DEFAULT_APP_DIR):
