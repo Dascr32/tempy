@@ -1,5 +1,7 @@
 # TEMPy: a CLI for cleaning your Windows temp files
 
+[![Build Status](https://travis-ci.org/Dascr32/tempy.svg?branch=develop)](https://travis-ci.org/Dascr32/tempy)
+
 <br><p align="center">
   <img src="assets/tempy.png" alt="logo"/>
 </p><br>
