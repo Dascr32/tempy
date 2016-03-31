@@ -36,6 +36,7 @@ $ tempy [COMMAND] [OPTION]
 | `analyze`     | `[none]`     | Shows the temp directory contents, number of files, and size.
 | `tree`        | `[none]`     | Displays a tree view of the temp directory
 | `log`         | `[none]`     | Opens the log file
+| `log`         | `--l`        | Shows a quick view of the last deletion report
 
 ## Examples
 
