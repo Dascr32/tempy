@@ -1,6 +1,7 @@
 import os
 import tempfile
 import prettytable
+from contextlib import suppress
 from collections import OrderedDict
 from tempy.scripts import converter
 
@@ -60,10 +61,11 @@ def get_dir_content(dir_path=TEMP_DIR):
 def get_dir_size(root_dir_path=TEMP_DIR, readable=False):
     raw_dir_size = 0
 
-    for dir_path, dir_names, file_names in os.walk(root_dir_path):
-        for file in file_names:
-            file_path = os.path.join(dir_path, file)
-            raw_dir_size += os.path.getsize(file_path)
+    with suppress(PermissionError):
+        for dir_path, dir_names, file_names in os.walk(root_dir_path):
+            for file in file_names:
+                file_path = os.path.join(dir_path, file)
+                raw_dir_size += os.path.getsize(file_path)
 
     return human_readable_size(raw_dir_size) if readable else raw_dir_size
 
@@ -87,8 +89,7 @@ def get_files_count(dir_path=TEMP_DIR):
     count = 0
 
     for entry in os.listdir(dir_path):
-        entry_path = os.path.join(dir_path, entry)
-        if not os.path.isdir(entry_path):
+        if not os.path.isdir(os.path.join(dir_path, entry)):
             count += 1
 
     return count
