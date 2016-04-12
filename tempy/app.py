@@ -26,7 +26,7 @@ def delete(config, a, se):
     """
     Deletes all the directory content (files, dirs)
     """
-    if a:
+    if a and click.confirm("Do you want to delete: " + config.dir_to_use + " ?"):
         click.echo("Attempting to delete: " + str(analyzer.get_entries_count()) + " entries...\n")
 
         cleaner.delete_dir_content(config.dir_to_use)
@@ -35,6 +35,7 @@ def delete(config, a, se):
 
         click.echo("\nDeletion complete!")
         click.echo("* Deletions: " + str(cleaner.cleanup_data["deletions"]))
+        click.echo("* Deletion size: " + converter.human_readable_size(cleaner.cleanup_data["size"]))
         click.echo("* Errors: " + str(cleaner.cleanup_data["error_count"]))
 
     if se:

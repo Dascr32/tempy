@@ -61,7 +61,7 @@ def get_dir_content(dir_path=TEMP_DIR):
 def get_dir_size(root_dir_path=TEMP_DIR, readable=False):
     raw_dir_size = 0
 
-    with suppress(PermissionError):
+    with suppress(os.error):
         for dir_path, dir_names, file_names in os.walk(root_dir_path):
             for file in file_names:
                 file_path = os.path.join(dir_path, file)

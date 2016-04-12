@@ -33,7 +33,7 @@ class CliTest(unittest.TestCase):
             # Change app_dir for creating the log file there
             filemanager.modify_config("app_dir", self.app_dir)
 
-            result = runner.invoke(app.cli, ["delete", "--a"])
+            result = runner.invoke(app.cli, ["delete", "--a"], input="y")
 
             assert result.exit_code == 0
             assert len(os.listdir(root)) == 0
@@ -61,6 +61,17 @@ class CliTest(unittest.TestCase):
             assert "+-- foo.txt" in result.output
             assert "|\t+-- test.txt" in result.output
             assert "|\t+-- subdir (DIR)" in result.output
+
+    def test_log_last(self):
+        runner = CliRunner()
+
+        with runner.isolated_filesystem() as root:
+            boilerplate.create_testing_dir(root)
+            filemanager.modify_config("dir_to_use", root)
+            result = runner.invoke(app.cli, ["log", "--l"])
+
+            assert "* Deletions: 4" in result.output
+            assert "* Errors: 0" in result.output
 
 
 class ScriptsTest(unittest.TestCase):
@@ -97,6 +108,7 @@ class ScriptsTest(unittest.TestCase):
         self.assertEqual(len(cleanup["deleted"]), 4)
         self.assertEqual(cleanup["deletions"], 4)
         self.assertIsNotNone(cleanup["size"])
+        self.assertAlmostEqual(cleanup["size"], 48)
         self.assertFalse(cleanup["errors"])
         self.assertEqual(cleanup["error_count"], 0)
         self.assertIsNotNone(cleanup["datetime"])

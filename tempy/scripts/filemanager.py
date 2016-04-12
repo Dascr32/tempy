@@ -75,8 +75,7 @@ def get_config_data(dir_path=DEFAULT_APP_DIR):
     if not config_file_exist(dir_path):
         create_config_file(dir_path)
 
-    with suppress(FileNotFoundError):
-        with open(os.path.join(dir_path, CONFIG_FILE_NAME)) as data_file:
+    with open(os.path.join(dir_path, CONFIG_FILE_NAME)) as data_file:
             data = json.load(data_file)
 
     return data
@@ -105,7 +104,6 @@ def pickle_data(file_name, data, dir_path=DEFAULT_APP_DIR):
 
 def unpickle_data(file_name, dir_path=DEFAULT_APP_DIR):
     data = None
-
     with open(os.path.join(dir_path, file_name + ".pickle"), "rb") as file:
         data = pickle.load(file)
 
