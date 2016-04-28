@@ -1,5 +1,8 @@
 # TEMPy: a CLI for cleaning your Windows temp files
 
+[![PyPI](https://img.shields.io/pypi/pyversions/tempy.svg)](https://pypi.python.org/pypi/tempy)
+[![PyPI](https://img.shields.io/pypi/v/tempy.svg)](https://pypi.python.org/pypi/tempy)
+[![PyPI](https://img.shields.io/pypi/dm/tempy.svg)](https://pypi.python.org/pypi/tempy)
 [![Build Status](https://travis-ci.org/Dascr32/tempy.svg?branch=develop)](https://travis-ci.org/Dascr32/tempy)
 
 <br><p align="center">
@@ -47,6 +50,7 @@ $ tempy [COMMAND] [OPTION]
 $ tempy delete --a
 ```
 ```
+Do you want to delete: C:\Users\User\AppData\Local\Temp ? [y/N]: y
 Attempting to delete: 5 entries..
 
 Deleting dir: foo-dir
@@ -59,6 +63,7 @@ Unable to delete
 
 Deletion complete!
 * Deletions: 3
+* Deletion size: 318.0 B
 * Errors: 2
 ```
 When this command is executed it automatically log the deletion report. Which can be accesed with `tempy log`.
@@ -138,6 +143,18 @@ Directory tree for: C:\Users\Daniel\AppData\Local\Temp
 * Size: 52.7 MiB
 ```
 ### Log
+```
+$ tempy log --l
+```
+Shows a quick description or view of the last deletion
+```
+Performed on: 03/22/16 13:15:43
+
+* Deletions: 1
+* Deletion size: 318.0 B
+* Errors: 12
+```
+
 ```
 $ tempy log
 ```
