@@ -32,7 +32,7 @@ def table_from_content(dir_content=None, sort_by="Size"):
     table = prettytable.PrettyTable(["File", "Size"])
 
     if not dir_content:
-        dir_content = get_dir_content()
+        table.add_row(["Directory is empty", "--"])
 
     if sort_by == "Size":
         dir_content = OrderedDict(sorted(dir_content.items(), key=lambda t: t[1]))

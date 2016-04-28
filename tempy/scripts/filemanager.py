@@ -61,7 +61,6 @@ def create_config_file(dir_path=DEFAULT_APP_DIR):
     config = dict()
     config["dir_to_use"] = "default"
     config["log_file_name"] = LOG_FILE_NAME
-    config["app_dir"] = "default"
 
     with open(os.path.join(dir_path, CONFIG_FILE_NAME), "w") as outfile:
         json.dump(config, outfile)

@@ -81,7 +81,7 @@ def tree(config):
 @cli.command()
 @app_config
 @click.option("--l", is_flag=True,
-              help="Shows a quick view of the last deletion report")
+              help="Shows a quick view of the last deletion")
 def log(config, l):
     """
     Tempy log with all the deletions reports

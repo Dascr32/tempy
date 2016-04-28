@@ -22,6 +22,7 @@ class CliTest(unittest.TestCase):
 
     def tearDown(self):
         shutil.rmtree(self.app_dir)
+        filemanager.modify_config("dir_to_use", "default")
 
     def test_delete(self):
         runner = CliRunner()
@@ -130,7 +131,6 @@ class ScriptsTest(unittest.TestCase):
 
         self.assertEqual(config["dir_to_use"], "default")
         self.assertEqual(config["log_file_name"], "tempy-log.txt")
-        self.assertEqual(config["app_dir"], "default")
 
     def test_modify_config(self):
         filemanager.create_config_file(self.dir_path)
