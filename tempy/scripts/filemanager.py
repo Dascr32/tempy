@@ -1,5 +1,7 @@
 import os
 import pickle
+import json
+from contextlib import suppress
 from tempy.scripts import cleaner
 from tempy.scripts import analyzer
 from tempy.scripts import converter
@@ -8,12 +10,13 @@ DEFAULT_APP_DIR = os.path.join(os.path.expanduser("~"), ".tempy")
 
 LOG_FILE_NAME = "tempy-log.txt"
 
-TEXT_SPACER = "\n\n\n"
+CONFIG_FILE_NAME = "config.json"
+
+TEXT_SPACER = "\n\n\n\n"
 
 
-def write_cleanup_report(file_path=DEFAULT_APP_DIR, file_name=LOG_FILE_NAME):
+def write_cleanup_report(cleanup_data, file_path=DEFAULT_APP_DIR, file_name=LOG_FILE_NAME):
     log_file = open(os.path.join(file_path, file_name), "a")
-    cleanup_data = cleaner.cleanup_data
 
     if not cleanup_data:
         log_file.write("\n\nNo clean up data available at: " + converter.get_datetime())
@@ -29,7 +32,7 @@ def format_report_head(data):
     output = "\n\n##### Clean up performed at: " + data["datetime"] + "#####\n\n"
     output += "\n==== Directory contents on delete ====\n\n"
     output += analyzer.table_from_content(data["content"]) + "\n\n"
-    output += "=> Files/Dirs: " + str(data["file_count"]) + "\n"
+    output += "=> Files: " + str(data["files_count"]) + " / Dirs: " + str(data["dirs_count"]) + "\n"
     output += "=> Size: " + converter.human_readable_size(data["size"]) + "\n"
 
     return output
@@ -49,22 +52,58 @@ def format_report_body(data):
     else:
         output += "=> No files or directories where deleted"
 
-    output += "\n" + TEXT_SPACER
+    output += TEXT_SPACER
 
     return output
 
 
-def pickle_data(file_name, data, file_path=DEFAULT_APP_DIR):
-    file = open(os.path.join(file_path, file_name + ".pickle"), "wb")
-    pickle.dump(data, file)
+def create_config_file(dir_path=DEFAULT_APP_DIR):
+    config = dict()
+    config["dir_to_use"] = "default"
+    config["log_file_name"] = LOG_FILE_NAME
+
+    with open(os.path.join(dir_path, CONFIG_FILE_NAME), "w") as outfile:
+        json.dump(config, outfile)
+
+    return config
 
 
-def unpickle_data(file_name, file_path=DEFAULT_APP_DIR):
+def get_config_data(dir_path=DEFAULT_APP_DIR):
     data = None
-    try:
-        file = open(os.path.join(file_path, file_name + ".pickle"), "rb")
+
+    if not config_file_exist(dir_path):
+        create_config_file(dir_path)
+
+    with open(os.path.join(dir_path, CONFIG_FILE_NAME)) as data_file:
+            data = json.load(data_file)
+
+    return data
+
+
+def modify_config(parameter, value, dir_path=DEFAULT_APP_DIR):
+
+    if not config_file_exist(dir_path):
+        create_config_file(dir_path)
+
+    config = get_config_data(dir_path)
+    config[parameter] = value
+
+    with open(os.path.join(dir_path, CONFIG_FILE_NAME), "w") as outfile:
+        json.dump(config, outfile)
+
+
+def config_file_exist(dir_path=DEFAULT_APP_DIR):
+    return os.path.exists(os.path.join(dir_path, CONFIG_FILE_NAME))
+
+
+def pickle_data(file_name, data, dir_path=DEFAULT_APP_DIR):
+    with open(os.path.join(dir_path, file_name + ".pickle"), "wb") as file:
+        pickle.dump(data, file)
+
+
+def unpickle_data(file_name, dir_path=DEFAULT_APP_DIR):
+    data = None
+    with open(os.path.join(dir_path, file_name + ".pickle"), "rb") as file:
         data = pickle.load(file)
-    except FileNotFoundError:
-        pass
 
     return data

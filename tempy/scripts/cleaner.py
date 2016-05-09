@@ -41,22 +41,27 @@ def gather_data_before_delete(dir_path):
     global dir_before_delete
     dir_before_delete["content"] = analyzer.get_dir_content(dir_path).copy()
     dir_before_delete["size"] = analyzer.get_dir_size(dir_path, False)
-    dir_before_delete["file_count"] = analyzer.get_total_files(dir_path)
+    dir_before_delete["entries_count"] = analyzer.get_entries_count(dir_path)
+    dir_before_delete["dirs_count"] = analyzer.get_dirs_count(dir_path)
+    dir_before_delete["files_count"] = analyzer.get_files_count(dir_path)
     dir_before_delete["datetime"] = converter.get_datetime()
 
 
 def gather_cleanup_data(dir_path):
     global cleanup_data
-    cleanup_data["deleted"] = compare_dir_contents(analyzer.get_dir_content(dir_path))
-    cleanup_data["deletions"] = dir_before_delete["file_count"] - analyzer.get_total_files(dir_path)
+    cleanup_data["deleted"] = get_dir_difference(analyzer.get_dir_content(dir_path))
+    cleanup_data["deletions"] = dir_before_delete["entries_count"] - analyzer.get_entries_count(dir_path)
     cleanup_data["size"] = dir_before_delete["size"] - analyzer.get_dir_size(dir_path, False)
     cleanup_data["errors"] = errors
     cleanup_data["error_count"] = len(errors)
     cleanup_data["datetime"] = converter.get_datetime()
 
 
-def compare_dir_contents(compare_to):
-    before_delete_content = set(dir_before_delete["content"].items())
-    current_dir_content = set(compare_to.items())
+def get_dir_difference(current_content, contents_before=None):
+    if not contents_before:
+        contents_before = dir_before_delete["content"]
+
+    before_delete_content = set(contents_before.items())
+    current_dir_content = set(current_content.items())
 
     return dict(before_delete_content.difference(current_dir_content))

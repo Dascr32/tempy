@@ -3,6 +3,8 @@
 [![PyPI](https://img.shields.io/pypi/pyversions/tempy.svg)](https://pypi.python.org/pypi/tempy)
 [![PyPI](https://img.shields.io/pypi/v/tempy.svg)](https://pypi.python.org/pypi/tempy)
 [![PyPI](https://img.shields.io/pypi/dm/tempy.svg)](https://pypi.python.org/pypi/tempy)
+[![Build Status](https://travis-ci.org/Dascr32/tempy.svg?branch=master)](https://travis-ci.org/Dascr32/tempy)
+
 
 <br><p align="center">
   <img src="assets/tempy.png" alt="logo"/>
@@ -40,6 +42,7 @@ $ tempy [COMMAND] [OPTION]
 | `analyze`     | `[none]`     | Shows the temp directory contents, number of files, and size.
 | `tree`        | `[none]`     | Displays a tree view of the temp directory
 | `log`         | `[none]`     | Opens the log file
+| `log`         | `--l`        | Shows a quick view of the last deletion report
 
 ## Examples
 
@@ -48,7 +51,8 @@ $ tempy [COMMAND] [OPTION]
 $ tempy delete --a
 ```
 ```
-Attempting deletion of: 5 elements..
+Do you want to delete: C:\Users\User\AppData\Local\Temp ? [y/N]: y
+Attempting to delete: 5 entries..
 
 Deleting dir: foo-dir
 Deleting file: foo.log
@@ -60,6 +64,7 @@ Unable to delete
 
 Deletion complete!
 * Deletions: 3
+* Deletion size: 318.0 B
 * Errors: 2
 ```
 When this command is executed it automatically log the deletion report. Which can be accesed with `tempy log`.
@@ -81,6 +86,7 @@ by another process: 'C:\\Users\\User\\AppData\\Local\\Temp\\app-log.log'
 ```
 
 ### Analyze
+By default the entries in the table are sorted by size (not shown in this example).
 ```
 $ tempy analyze
 ```
@@ -104,7 +110,7 @@ Analyzing directory: C:\Users\User\AppData\Local\Temp
 |        foorpdata_user       |   0.0 B   |
 |         fooelib.log         |  4.8 KiB  |
 +-----------------------------+-----------+
-* Files/Dirs: 13
+* Files: 11 / Dirs: 2
 * Size: 52.7 MiB
 ```
 ### Tree
@@ -133,8 +139,23 @@ Directory tree for: C:\Users\Daniel\AppData\Local\Temp
 +-- glufoo1.log
 +-- fooelib.log
 +-- PDFoo.log
+
+* Files: 11 / Dirs: 2
+* Size: 52.7 MiB
 ```
 ### Log
+```
+$ tempy log --l
+```
+Shows a quick description or view of the last deletion
+```
+Performed on: 03/22/16 13:15:43
+
+* Deletions: 1
+* Deletion size: 318.0 B
+* Errors: 12
+```
+
 ```
 $ tempy log
 ```
@@ -162,7 +183,7 @@ Opens your default editor with the log content:
 |        foorpdata_user       |   0.0 B   |
 |         fooelib.log         |  4.8 KiB  |
 +-----------------------------+-----------+
-=> Files/Dirs: 13
+=> Files: 11 / Dirs: 2
 => Size: 52.7 MiB
 
 ==== Deleted Files/Dirs ====
