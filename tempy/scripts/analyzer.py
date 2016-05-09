@@ -76,7 +76,6 @@ def get_entries_count(dir_path=TEMP_DIR):
 
 def get_dirs_count(dir_path=TEMP_DIR):
     count = 0
-
     for entry in os.listdir(dir_path):
         entry_path = os.path.join(dir_path, entry)
         if os.path.isdir(entry_path):
@@ -87,7 +86,6 @@ def get_dirs_count(dir_path=TEMP_DIR):
 
 def get_files_count(dir_path=TEMP_DIR):
     count = 0
-
     for entry in os.listdir(dir_path):
         if not os.path.isdir(os.path.join(dir_path, entry)):
             count += 1

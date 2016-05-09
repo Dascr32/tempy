@@ -19,7 +19,7 @@ def write_cleanup_report(cleanup_data, file_path=DEFAULT_APP_DIR, file_name=LOG_
     log_file = open(os.path.join(file_path, file_name), "a")
 
     if not cleanup_data:
-        log_file.write("\n\nNo clean up data available on: " + converter.get_datetime())
+        log_file.write("\n\nNo clean up data available at: " + converter.get_datetime())
 
     else:
         log_file.write(format_report_head(cleaner.dir_before_delete))
@@ -29,7 +29,7 @@ def write_cleanup_report(cleanup_data, file_path=DEFAULT_APP_DIR, file_name=LOG_
 
 
 def format_report_head(data):
-    output = "\n\n##### Clean up performed on: " + data["datetime"] + "#####\n\n"
+    output = "\n\n##### Clean up performed at: " + data["datetime"] + "#####\n\n"
     output += "\n==== Directory contents on delete ====\n\n"
     output += analyzer.table_from_content(data["content"]) + "\n\n"
     output += "=> Files: " + str(data["files_count"]) + " / Dirs: " + str(data["dirs_count"]) + "\n"

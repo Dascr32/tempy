@@ -11,7 +11,7 @@ app_config = click.make_pass_decorator(Config, ensure=True)
 
 
 @click.group()
-@click.version_option(version="0.5", prog_name="TEMPy")
+@click.version_option(version="0.7", prog_name="TEMPy")
 def cli():
     pass
 
@@ -26,7 +26,7 @@ def delete(config, a, se):
     """
     Deletes all the directory content (files, dirs)
     """
-    if a and click.confirm("Do you want to delete: " + config.dir_to_use + " ?"):
+    if a and click.confirm("Delete all contents of " + config.dir_to_use + " ?"):
         click.echo("Attempting to delete: " + str(analyzer.get_entries_count()) + " entries...\n")
 
         cleaner.delete_dir_content(config.dir_to_use)
@@ -90,7 +90,7 @@ def log(config, l):
         try:
             last_cleanup = filemanager.unpickle_data("last-cleanup")
 
-            click.echo("\nPerformed on: " + last_cleanup["datetime"])
+            click.echo("\nPerformed at: " + last_cleanup["datetime"])
             click.echo("\n* Deletions: " + str(last_cleanup["deletions"]))
             click.echo("* Deletion size: " + converter.human_readable_size(last_cleanup["size"]))
             click.echo("* Errors: " + str(last_cleanup["error_count"]))
